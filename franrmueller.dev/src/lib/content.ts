@@ -1,40 +1,59 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from 'fs';
+import path from 'path';
 import matter from 'gray-matter';
 
-type Kind = 'article' | 'post';
+const ARTICLES_DIR = path.join(process.cwd(), 'content', 'articles');
 
-export type PostMeta = {
-  slug: string;
+export type ArticleMeta = {
   title: string;
-  date: string;
-  excerpt?: string;
-  type: Kind;
+  date?: string;
+  description?: string;
+  tags?: string[];
 };
 
-const ROOT = path.join(process.cwd(), 'content');
+export type Article = {
+  slug: string;
+  meta: ArticleMeta;
+  content: string; // raw MDX
+};
 
-function readDir(kind: Kind) {
-  const dir = path.join(ROOT, kind === 'article' ? 'articles' : 'posts');
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter(f => f.endsWith('.mdx'));
+export function getAllArticles(): Article[] {
+  const files = fs.readdirSync(ARTICLES_DIR).filter(f => f.endsWith('.mdx'));
+  const articles = files.map(file => {
+    const slug = file.replace(/\.mdx$/, '');
+    const full = path.join(ARTICLES_DIR, file);
+    const raw = fs.readFileSync(full, 'utf8');
+    const { data, content } = matter(raw);
+    return {
+      slug,
+      meta: {
+        title: data.title ?? slug,
+        date: data.date ?? null,
+        description: data.description ?? '',
+        tags: data.tags ?? [],
+      },
+      content,
+    } as Article;
+  });
+
+  // sort newest first if dates exist
+  articles.sort((a, b) => (b.meta.date ?? '').localeCompare(a.meta.date ?? ''));
+  return articles;
 }
 
-export function getAllMeta(): PostMeta[] {
-  const all = (['article', 'post'] as Kind[]).flatMap(kind =>
-    readDir(kind).map(file => {
-      const filePath = path.join(ROOT, kind === 'article' ? 'articles' : 'posts', file);
-      const raw = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(raw);
-      return {
-        slug: file.replace(/\.mdx?$/, ''),
-        title: data.title as string,
-        date: data.date as string,
-        excerpt: data.excerpt as string | undefined,
-        type: kind,
-      } satisfies PostMeta;
-    })
-  );
-  
-  return all.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+export function getArticleBySlug(slug: string): Article | null {
+  const full = path.join(ARTICLES_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(full)) return null;
+  const raw = fs.readFileSync(full, 'utf8');
+  const { data, content } = matter(raw);
+  return {
+    slug,
+    meta: {
+      title: data.title ?? slug,
+      date: data.date ?? null,
+      description: data.description ?? '',
+      tags: data.tags ?? [],
+    },
+    content,
+  };
 }

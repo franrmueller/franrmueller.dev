@@ -1,21 +1,31 @@
-import Link from 'next/link';
-import { getAllMeta } from '@/lib/content';
+import Link from "next/link";
 
-export default function Writing() {
-  const all = getAllMeta();
+// TODO: replace this with your MDX loader later
+const posts = [
+  { slug: "sample-post", title: "Sample Post Title", date: "2025-08-01" },
+  { slug: "another-post", title: "Another Post", date: "2025-07-15" },
+];
+
+export default function WritingPage() {
   return (
-    <div>
-      <h1 className="mb-6 text-xl font-semibold">Writing</h1>
-      <ul className="space-y-3">
-        {all.map(p => (
+    <section className="space-y-6">
+      <h1 className="text-2xl font-bold text-neutral-dark">Writing</h1>
+      <ul className="list-none space-y-4">
+        {posts.map((p) => (
           <li key={p.slug}>
-            <Link href={`/writing/${p.slug}`} className="hover:underline underline-offset-4">{p.title}</Link>
-            <span className="ml-2 text-sm text-neutral-500">
-              {new Date(p.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+            <Link href={`/writing/${p.slug}`} className="text-accent hover:underline">
+              {p.title}
+            </Link>
+            <span className="ml-2 text-sm text-neutral-gray">
+              {new Date(p.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
             </span>
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
