@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "@contentlayer/core": "^0.3.4",
-    "@contentlayer/source-files": "^0.3.4",
-    "contentlayer": "^0.3.4",
-    "next-contentlayer": "^0.3.4",
-    "patch-package": "^8.0.0"
-  }
-}
