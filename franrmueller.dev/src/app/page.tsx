@@ -19,7 +19,7 @@ export default function Home() {
         <p className="text-lg">
           Hi <a href="https://twitter.com/yourhandle" target="_blank">Lara</a>.
         </p>
-        <p>You smell really good</p>
+        <p>You smell pretty good</p>
         <p>
           This is where I share my <Link href="/writing">articles</Link>, thoughts, and current{" "}
           <Link href="/reading">readings</Link>.
