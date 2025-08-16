@@ -10,11 +10,13 @@ export default function Home() {
     <div className="space-y-10">
       {/* Intro (mirrors ordep.dev’s simple opening) */}
       <section className="prose dark:prose-invert prose-neutral max-w-none">
-        <p className="text-lg">I’m <a href="https://twitter.com/yourhandle" target="_blank">@yourhandle</a>.</p>
+        <p className="text-lg">
+          I’m <a href="https://twitter.com/yourhandle" target="_blank">@yourhandle</a>.
+        </p>
         <p>I like distributed systems, databases, and programming languages.</p>
         <p>
-          This is where I share my <Link href="/writing">articles</Link>, thoughts, and current{' '}
-          <Link href="/reading">readings</Link>.
+          This is where I share my <a href="/writing">articles</a>, thoughts, and current{" "}
+          <a href="/reading">readings</a>.
         </p>
       </section>
 
