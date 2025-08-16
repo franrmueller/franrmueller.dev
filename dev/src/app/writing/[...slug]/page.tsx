@@ -1,7 +1,7 @@
 // src/app/writing/[slug]/page.tsx
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
-import { useMDXComponent } from "../../lib/mdx";
+import { useMDXComponent } from "../../../lib/mdx";
 
 export default function PostPage({ params }: { params: { slug: string } }) {
   const post = allPosts.find(
