@@ -1,43 +1,54 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import matter from 'gray-matter';
-import { notFound } from 'next/navigation';
+import fs from "node:fs";
+import path from "node:path";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { compileMDX } from "next-mdx-remote/rsc";
 
-const ROOT = path.join(process.cwd(), 'content');
+const ROOT = path.join(process.cwd(), "content");
 
-export function generateStaticParams() {
-  const postsDir = path.join(ROOT, 'posts');
-  const articlesDir = path.join(ROOT, 'articles');
-  const slugs = [postsDir, articlesDir]
-    .filter(fs.existsSync)
-    .flatMap(dir => fs.readdirSync(dir).filter(f => f.endsWith('.mdx')).map(f => ({ slug: f.replace(/\.mdx?$/, '') })));
-  return slugs;
-}
-
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const file = findFile(params.slug);
-  if (!file) return {};
-  const raw = fs.readFileSync(file, 'utf8');
-  const { data } = matter(raw);
-  return { title: data.title, description: data.excerpt ?? '' };
-}
+type FM = {
+  title: string;
+  date: string;
+  excerpt?: string;
+  type?: "article" | "post";
+};
 
 function findFile(slug: string) {
-  const p1 = path.join(ROOT, 'posts', `${slug}.mdx`);
-  const p2 = path.join(ROOT, 'articles', `${slug}.mdx`);
-  if (fs.existsSync(p1)) return p1;
-  if (fs.existsSync(p2)) return p2;
+  const posts = path.join(ROOT, "posts", `${slug}.mdx`);
+  const articles = path.join(ROOT, "articles", `${slug}.mdx`);
+  if (fs.existsSync(posts)) return posts;
+  if (fs.existsSync(articles)) return articles;
   return null;
 }
 
-export default function PostPage({ params }: { params: { slug: string } }) {
+export async function generateStaticParams() {
+  const dirs = [path.join(ROOT, "posts"), path.join(ROOT, "articles")].filter(fs.existsSync);
+  const slugs = dirs.flatMap((dir) =>
+    fs.readdirSync(dir).filter((f) => f.endsWith(".mdx")).map((f) => ({ slug: f.replace(/\.mdx?$/, "") }))
+  );
+  return slugs;
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const file = findFile(params.slug);
+  if (!file) return {};
+  const source = fs.readFileSync(file, "utf8");
+  const { frontmatter } = await compileMDX<FM>({ source, options: { parseFrontmatter: true } });
+  return {
+    title: frontmatter?.title ?? params.slug,
+    description: frontmatter?.excerpt ?? "",
+  };
+}
+
+export default async function Page({ params }: { params: { slug: string } }) {
   const file = findFile(params.slug);
   if (!file) return notFound();
-  // MDX is compiled by Next automatically; we can just import it at runtime
-  const Mdx = require(file).default; // evaluated at build time in Node
-  return (
-    <article className="prose dark:prose-invert prose-neutral max-w-none">
-      <Mdx />
-    </article>
-  );
+
+  const source = fs.readFileSync(file, "utf8");
+  const { content } = await compileMDX<FM>({
+    source,
+    options: { parseFrontmatter: true },
+  });
+
+  return <article className="prose dark:prose-invert prose-neutral max-w-none">{content}</article>;
 }

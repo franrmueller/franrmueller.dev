@@ -7,7 +7,7 @@ type Kind = 'article' | 'post';
 export type PostMeta = {
   slug: string;
   title: string;
-  date: string;   // ISO
+  date: string;
   excerpt?: string;
   type: Kind;
 };
@@ -35,6 +35,6 @@ export function getAllMeta(): PostMeta[] {
       } satisfies PostMeta;
     })
   );
-  // newest first
+  
   return all.sort((a, b) => +new Date(b.date) - +new Date(a.date));
 }
