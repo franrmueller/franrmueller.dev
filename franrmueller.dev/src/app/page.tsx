@@ -17,9 +17,9 @@ export default function Home() {
       {/* Intro */}
       <section className="prose dark:prose-invert prose-neutral max-w-none">
         <p className="text-lg">
-          I’m <a href="https://twitter.com/yourhandle" target="_blank">@yourhandle</a>.
+          Hi <a href="https://twitter.com/yourhandle" target="_blank">Lara</a>.
         </p>
-        <p>I like distributed systems, databases, and programming languages.</p>
+        <p>You smell really good</p>
         <p>
           This is where I share my <Link href="/writing">articles</Link>, thoughts, and current{" "}
           <Link href="/reading">readings</Link>.
