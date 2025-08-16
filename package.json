@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "dev": "next dev dev",
-    "build": "next build dev",
-    "start": "next start dev"
-  }
-}
