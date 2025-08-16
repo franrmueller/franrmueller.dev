@@ -1,6 +1,6 @@
 import { allPosts } from "contentlayer/generated";
 import { notFound } from "next/navigation";
-import { useMDXComponent } from "next-contentlayer/hooks";
+import { useMDXComponent } from "../../../lib/mdx";
 
 export default function PostPage({ params }: { params: { slug: string[] } }) {
   const slug = params.slug.join("/");
