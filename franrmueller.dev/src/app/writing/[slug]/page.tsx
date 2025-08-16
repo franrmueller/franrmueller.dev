@@ -6,46 +6,50 @@ import { compileMDX } from "next-mdx-remote/rsc";
 
 const ROOT = path.join(process.cwd(), "content");
 
-type FM = {
+type FrontMatter = {
   title: string;
   date: string;
   excerpt?: string;
   type?: "article" | "post";
 };
 
+type PageProps = { params: { slug: string } };
+
 function findFile(slug: string) {
-  const posts = path.join(ROOT, "posts", `${slug}.mdx`);
-  const articles = path.join(ROOT, "articles", `${slug}.mdx`);
-  if (fs.existsSync(posts)) return posts;
-  if (fs.existsSync(articles)) return articles;
+  const p1 = path.join(ROOT, "posts", `${slug}.mdx`);
+  const p2 = path.join(ROOT, "articles", `${slug}.mdx`);
+  if (fs.existsSync(p1)) return p1;
+  if (fs.existsSync(p2)) return p2;
   return null;
 }
 
 export async function generateStaticParams() {
   const dirs = [path.join(ROOT, "posts"), path.join(ROOT, "articles")].filter(fs.existsSync);
-  const slugs = dirs.flatMap((dir) =>
-    fs.readdirSync(dir).filter((f) => f.endsWith(".mdx")).map((f) => ({ slug: f.replace(/\.mdx?$/, "") }))
+  return dirs.flatMap((dir) =>
+    fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith(".mdx"))
+      .map((f) => ({ slug: f.replace(/\.mdx?$/, "") }))
   );
-  return slugs;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const file = findFile(params.slug);
   if (!file) return {};
   const source = fs.readFileSync(file, "utf8");
-  const { frontmatter } = await compileMDX<FM>({ source, options: { parseFrontmatter: true } });
+  const { frontmatter } = await compileMDX<FrontMatter>({ source, options: { parseFrontmatter: true } });
   return {
     title: frontmatter?.title ?? params.slug,
     description: frontmatter?.excerpt ?? "",
   };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: PageProps) {
   const file = findFile(params.slug);
   if (!file) return notFound();
 
   const source = fs.readFileSync(file, "utf8");
-  const { content } = await compileMDX<FM>({
+  const { content } = await compileMDX<FrontMatter>({
     source,
     options: { parseFrontmatter: true },
   });
