@@ -1,6 +1,7 @@
 {
-  "dependencies": {
-    "contentlayer": "^0.3.4",
-    "next-contentlayer": "^0.3.4"
+  "scripts": {
+    "dev": "next dev dev",
+    "build": "next build dev",
+    "start": "next start dev"
   }
 }
