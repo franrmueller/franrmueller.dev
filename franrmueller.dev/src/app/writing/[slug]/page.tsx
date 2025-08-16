@@ -1,3 +1,4 @@
+// src/app/writing/[slug]/page.tsx
 import fs from "node:fs";
 import path from "node:path";
 import { notFound } from "next/navigation";
@@ -12,8 +13,6 @@ type FrontMatter = {
   excerpt?: string;
   type?: "article" | "post";
 };
-
-type PageProps = { params: { slug: string } };
 
 function findFile(slug: string) {
   const p1 = path.join(ROOT, "posts", `${slug}.mdx`);
@@ -33,18 +32,21 @@ export async function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const file = findFile(params.slug);
   if (!file) return {};
   const source = fs.readFileSync(file, "utf8");
-  const { frontmatter } = await compileMDX<FrontMatter>({ source, options: { parseFrontmatter: true } });
+  const { frontmatter } = await compileMDX<FrontMatter>({
+    source,
+    options: { parseFrontmatter: true },
+  });
   return {
     title: frontmatter?.title ?? params.slug,
     description: frontmatter?.excerpt ?? "",
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const file = findFile(params.slug);
   if (!file) return notFound();
 
