@@ -10,10 +10,9 @@ export default function HomePage() {
   return (
     <section>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 600 }}>I’m Fran.</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 600 }}>Hi Lara,</h1>
         <p>
-          I work in SAP cloud infra, data analytics, and finance. This is where I share
-          articles, notes, and what I’m reading.
+          You smell really good.
         </p>
       </div>
 
