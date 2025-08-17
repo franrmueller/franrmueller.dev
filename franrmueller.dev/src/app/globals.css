@@ -43,6 +43,7 @@
 /* ===== App-level CSS variables that feed the semantic tokens ===== */
 /* Light (Anthropic) */
 :root {
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --app-background: #FCFCFC;   /* light bg */
   --app-foreground: #0A0A0A;   /* near-black */
   --app-border: #EAEAEA;       /* subtle divider */
@@ -64,7 +65,7 @@ html { color-scheme: light; }
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
 }
 
 header { background-color: transparent; }

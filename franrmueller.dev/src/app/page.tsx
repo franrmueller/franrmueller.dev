@@ -31,28 +31,17 @@ function IntroHeader() {
   return (
     <section className="pt-16 sm:pt-20">
       <p className="text-2xl sm:text-3xl tracking-tight text-foreground/90">
-        <span className="mr-2">👋</span>
         I&apos;m{" "}
         <Link href="/about" className="underline decoration-2 underline-offset-4 hover:opacity-80">
-          @yourhandle
-        </Link>.
+          @franrmueller
+        </Link>, and I like systems.
       </p>
-
-      <h1 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight tracking-tight text-indigo-900 dark:text-indigo-200">
-        I like distributed systems, databases,
-        <br className="hidden sm:block" />
-        and programming languages.
-      </h1>
 
       <p className="mt-6 max-w-3xl text-lg leading-8 text-foreground/80">
         This website is where I share my{" "}
-        <Link href="/writing" className="underline underline-offset-4">articles</Link>,{" "}
+        <Link href="/writing" className="underline underline-offset-4">writings</Link>,{" "}
         <Link href="/thoughts" className="underline underline-offset-4">thoughts</Link>, and current{" "}
-        <Link href="/reading" className="underline underline-offset-4">readings</Link>. I&apos;m reviving
-        my online presence. Although I stopped{" "}
-        <Link href="/writing" className="underline underline-offset-4">writing</Link> and giving{" "}
-        <Link href="/talks" className="underline underline-offset-4">talks</Link> in 2021, I plan to write
-        as often as possible from now on.
+        <Link href="/reading" className="underline underline-offset-4">readings</Link>.
       </p>
     </section>
   );
@@ -120,9 +109,7 @@ function IntroColumns() {
         {/* Column 1 – longer articles */}
         <div>
           <p className="text-sm text-muted-foreground leading-6">
-            Once in a while, I write longer articles that might be worth sharing
-            on Hacker News. Mostly about distributed systems, and engineering
-            challenges.
+            Every now and then, I write longer articles that synthesize my thinking and bring closure to a specific topic.
           </p>
           <ul className="mt-5 space-y-4">
             {longPosts.map((p) => (
@@ -153,12 +140,7 @@ function IntroColumns() {
         {/* Column 3 – reading / books */}
         <div>
           <p className="text-sm text-muted-foreground leading-6">
-            In the meantime, I make time to read some{" "}
-            <Link href="/reading" className="underline">
-              books
-            </Link>
-            . Some tech, some not, mostly non-fiction. No fancy reviews, just
-            honest takes.
+          This is my reading list, distilled into takeaways and ideas worth passing on.
           </p>
           <ul className="mt-5 space-y-4">
             {books.map((b) => (
