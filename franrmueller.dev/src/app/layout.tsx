@@ -1,70 +1,42 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { Home } from "lucide-react";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
+import Script from "next/script";
+import type { Metadata } from "next";
+import Header from "@/components/Header";
+import Favicon from "./Favicon";
 
 export const metadata: Metadata = {
-  title: {
-    default: "franrmueller.dev",
-    template: "%s · franrmueller.dev",
-  },
-  description: "Writing and a public reading log by Fran R. Müller.",
-  metadataBase: new URL("https://franrmueller.dev"),
+  title: "Your Site",
+  description: "Description",
+  // removed static icons so the dynamic one takes over
 };
 
-function Nav() {
-  const links = [
-    { href: "/writing", label: "Writing" },
-    { href: "/reading", label: "Reading" },
-  ];
-
-  return (
-    <header className="border-b border-neutral-gray/20">
-      <div className="mx-auto max-w-2xl px-4 sm:px-6">
-        <nav className="flex items-center justify-between py-6" aria-label="Primary">
-          <Link
-            href="/"
-            className="flex items-center text-neutral-dark hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent rounded"
-          >
-            <Home size={20} strokeWidth={2} aria-label="Home" />
-          </Link>
-
-          <ul className="flex items-center gap-5 text-sm">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-neutral-dark/80 hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent rounded"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="mt-16 border-t border-neutral-gray/20">
-      <div className="mx-auto max-w-2xl px-4 sm:px-6 py-8 text-sm text-neutral-gray">
-        © {new Date().getFullYear()} Fran R. Müller
-      </div>
-    </footer>
-  );
-}
-
-// 👇 THIS must be the default export, and it must return JSX
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-neutral-light text-neutral-dark antialiased">
-        <Nav />
-        <main className="mx-auto max-w-2xl px-4 sm:px-6 py-10">{children}</main>
-        <Footer />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`
+            (function () {
+              try {
+                var m = localStorage.getItem('theme') || 'system';
+                var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var dark = (m === 'dark') || (m === 'system' && sysDark);
+                var root = document.documentElement;
+                root.classList.toggle('dark', dark);
+                root.style.colorScheme = dark ? 'dark' : 'light';
+              } catch (_) {}
+            })();
+          `}
+        </Script>
+      </head>
+      <body className="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme">
+          {/* This updates favicon immediately when theme changes */}
+          <Favicon />
+          <Header />
+          <main className="mx-auto max-w-5xl px-4">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );
