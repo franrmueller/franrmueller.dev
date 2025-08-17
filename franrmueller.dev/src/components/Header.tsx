@@ -13,19 +13,22 @@ const NAV = [
 
 export default function Header() {
   return (
-    <header
-      className="w-full sticky top-0 z-50 text-sm
-                 bg-white/90 dark:bg-gradient-to-b dark:from-[#141521] dark:to-[#171827]
-                 backdrop-blur"
-    >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+    <header className="sticky top-0 z-50 w-full">
+      {/* Background blur layer (behind content) */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute inset-0 -z-10
+          bg-background/60
+          backdrop-blur
+          supports-[backdrop-filter]:bg-background/60
+        "
+      />
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex h-14 items-center justify-between">
           {/* Home / logo */}
-          <NextLink
-            href="/"
-            className="flex items-center hover:opacity-90"
-            aria-label={BRAND}
-          >
+          <NextLink href="/" className="flex items-center hover:opacity-90" aria-label={BRAND}>
             <span className="sr-only">{BRAND}</span>
 
             {/* Light UI → black logo */}
@@ -54,9 +57,7 @@ export default function Header() {
               <NextLink
                 key={item.href}
                 href={item.href}
-                className="uppercase text-[12px] tracking-wider
-                           text-zinc-700 hover:text-zinc-900
-                           dark:text-slate-200/90 dark:hover:text-white"
+                className="uppercase text-[12px] tracking-wider text-foreground/80 hover:text-foreground"
               >
                 {item.label}
               </NextLink>
@@ -70,12 +71,14 @@ export default function Header() {
               aria-label="Open menu"
               className="md:hidden p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5"
             >
-              <ChevronDown className="h-5 w-5 text-zinc-800 dark:text-slate-200" />
+              <ChevronDown className="h-5 w-5 text-foreground/90" />
             </button>
           </div>
         </div>
       </div>
-      <div className="h-px bg-gradient-to-r from-transparent via-black/10 to-transparent dark:via-white/10" />
+
+      {/* optional separator */}
+      {/* <div className="h-px bg-gradient-to-r from-transparent via-black/10 to-transparent dark:via-white/10" /> */}
     </header>
   );
 }

@@ -1,16 +1,113 @@
+/* global.css (Tailwind v4.1.x) */
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* Make 'dark:' work with a .dark class anywhere up the tree */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+/* ===== Design tokens (v4) =====
+   Tokens defined here become Tailwind theme values:
+   - Colors: bg-{name}, text-{name}, border-{name}, ring-{name}, etc.
+   - Fonts: font-sans, font-mono, etc.
+*/
+@theme {
+  /* Semantic tokens */
+  --color-background: var(--app-background);
+  --color-foreground: var(--app-foreground);
+  --color-border: var(--app-border);
+  --color-muted: var(--app-muted);
+
+  /* Your accent & neutral palette */
+  --color-accent: #CC785C;
+  --color-accent-hover: #B8644B;
+  --color-accent-alt: #DA7756;
+  --color-accent-ring: #CC785C66;
+
+  --color-neutral-light: #F8F7FF;
+  --color-neutral-gray: #828179;
+  --color-neutral-dark: #111111;
+
+  /* Extra colors you had in module.exports */
+  --color-beige-light: #FAF7F0;
+  --color-purple-600: #7E5AFF;
+  --color-purple-400: #A590FF;
+  --color-slate-800: #262626;
+  --color-slate-700: #444444;
+  --color-slate-900: #1A1A1A;
+
+  /* Fonts (optional) */
   --font-sans: ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
 }
 
-a {
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1px;
+/* ===== App-level CSS variables that feed the semantic tokens ===== */
+/* Light (Anthropic) */
+:root {
+  --app-background: #FCFCFC;   /* light bg */
+  --app-foreground: #0A0A0A;   /* near-black */
+  --app-border: #EAEAEA;       /* subtle divider */
+  --app-muted: #6B7280;        /* body-muted */
 }
+
+/* Dark (LangChain) */
+.dark {
+  --app-background: #0E1117;   /* dark bg */
+  --app-foreground: #F8F8F8;   /* near-white */
+  --app-border: #263040;       /* subtle divider */
+  --app-muted: #B3B9C5;
+}
+
+/* Base elements adopt tokens */
+html { color-scheme: light; }
+.dark html { color-scheme: dark; }
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+header { background-color: transparent; }
+
+/* ===== Typography plugin tuning =====
+   These CSS vars are read by @tailwindcss/typography’s .prose classes.
+*/
+.prose {
+  --tw-prose-body: var(--color-foreground);
+  --tw-prose-headings: var(--color-foreground);
+  --tw-prose-links: var(--color-foreground);
+  --tw-prose-bold: var(--color-foreground);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-muted);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-foreground);
+  --tw-prose-quote-borders: var(--color-border);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-foreground);
+  --tw-prose-pre-code: var(--color-foreground);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+}
+
+.dark .prose {
+  --tw-prose-body: var(--color-foreground);
+  --tw-prose-headings: var(--color-foreground);
+  --tw-prose-links: var(--color-foreground);
+  --tw-prose-bold: var(--color-foreground);
+  --tw-prose-counters: var(--color-muted);
+  --tw-prose-bullets: var(--color-muted);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-foreground);
+  --tw-prose-quote-borders: var(--color-border);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-foreground);
+  --tw-prose-pre-code: var(--color-foreground);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border);
+}
+
+/* Small polish */
+.prose h1, .prose h2, .prose h3 { scroll-margin-top: 5rem; }
+.prose blockquote { font-style: normal; border-left-color: var(--color-border); }
+.prose hr { border-color: var(--color-border); }
+a { text-underline-offset: 4px; text-decoration-thickness: 1px; }

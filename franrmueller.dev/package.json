@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@next/mdx": "^15.4.6",
-    "@tailwindcss/typography": "^0.5.16",
     "gray-matter": "^4.0.3",
     "link": "^2.1.1",
     "lucide-react": "^0.539.0",
@@ -27,6 +26,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.12",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

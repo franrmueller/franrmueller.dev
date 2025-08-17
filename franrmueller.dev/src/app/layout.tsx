@@ -8,7 +8,6 @@ import Favicon from "./Favicon";
 export const metadata: Metadata = {
   title: "Your Site",
   description: "Description",
-  // removed static icons so the dynamic one takes over
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -29,10 +28,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             })();
           `}
         </Script>
+
+        {/* Make browser UI match page bg */}
+        <meta name="theme-color" content="#FCFCFC" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0E1117" media="(prefers-color-scheme: dark)" />
       </head>
-      <body className="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased">
+      <body className="bg-background text-foreground antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme">
-          {/* This updates favicon immediately when theme changes */}
           <Favicon />
           <Header />
           <main className="mx-auto max-w-5xl px-4">{children}</main>
