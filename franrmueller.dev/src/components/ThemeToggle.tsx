@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 type ThemeMode = "light" | "dark" | "system";
 type Size = "sm" | "md" | "lg";
@@ -61,7 +61,6 @@ export default function ThemeToggle({
             ${mode === opt ? "bg-white/10 ring-1 ring-white/20" : "opacity-70 hover:opacity-100"}`}
         >
           {opt === "light" && <Sun className={preset.icon} />}
-          {/* {opt === "system" && <Monitor className={preset.icon} />} */}
           {opt === "dark" && <Moon className={preset.icon} />}
         </button>
       ))}

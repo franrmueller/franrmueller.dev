@@ -9,7 +9,7 @@ export default function Hero() {
         {/* Quote */}
         <blockquote className="md:pl-6">
           <p className="text-base md:text-lg leading-relaxed italic max-w-xl">
-            “I consider that a man's brain originally is like a little empty attic, 
+            “I consider that a man&apos;s brain originally is like a little empty attic, 
             and you have to stock it with such furniture as you choose. 
             A fool takes in all the lumber of every sort that he comes across, 
             so that the knowledge which might be useful to him gets crowded out, 

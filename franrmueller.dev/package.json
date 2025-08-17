@@ -12,6 +12,7 @@
     "@next/mdx": "^15.4.6",
     "@tailwindcss/typography": "^0.5.16",
     "gray-matter": "^4.0.3",
+    "link": "^2.1.1",
     "lucide-react": "^0.539.0",
     "next": "15.4.6",
     "next-mdx-remote": "^5.0.0",

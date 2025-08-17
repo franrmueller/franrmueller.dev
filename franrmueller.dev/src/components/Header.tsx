@@ -1,5 +1,7 @@
 "use client";
 
+import NextLink from "next/link";
+import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
@@ -11,52 +13,63 @@ const NAV = [
 
 export default function Header() {
   return (
-    <header className="w-full sticky top-0 z-50 text-sm
-      bg-white/90 dark:bg-gradient-to-b dark:from-[#141521] dark:to-[#171827]
-      backdrop-blur">
+    <header
+      className="w-full sticky top-0 z-50 text-sm
+                 bg-white/90 dark:bg-gradient-to-b dark:from-[#141521] dark:to-[#171827]
+                 backdrop-blur"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex h-14 items-center justify-between">
-          {/* Home/logo */}
-          <a href="/" className="flex items-center hover:opacity-90" aria-label={BRAND}>
+          {/* Home / logo */}
+          <NextLink
+            href="/"
+            className="flex items-center hover:opacity-90"
+            aria-label={BRAND}
+          >
             <span className="sr-only">{BRAND}</span>
 
             {/* Light UI → black logo */}
-            <img
+            <Image
               src="/sherlock-black.png"
-              alt=""
+              alt={`${BRAND} logo`}
               className="h-8 w-8 dark:hidden"
               width={32}
               height={32}
+              priority
             />
             {/* Dark UI → white logo */}
-            <img
+            <Image
               src="/sherlock-white.png"
-              alt=""
+              alt={`${BRAND} logo`}
               className="h-8 w-8 hidden dark:block"
               width={32}
               height={32}
+              priority
             />
-          </a>
+          </NextLink>
 
           {/* Primary nav */}
           <nav className="hidden md:flex items-center gap-6">
             {NAV.map((item) => (
-              <a
+              <NextLink
                 key={item.href}
                 href={item.href}
                 className="uppercase text-[12px] tracking-wider
-                  text-zinc-700 hover:text-zinc-900
-                  dark:text-slate-200/90 dark:hover:text-white"
+                           text-zinc-700 hover:text-zinc-900
+                           dark:text-slate-200/90 dark:hover:text-white"
               >
                 {item.label}
-              </a>
+              </NextLink>
             ))}
           </nav>
 
           {/* Right controls */}
           <div className="flex items-center gap-3">
             <ThemeToggle size="sm" />
-            <button aria-label="Open menu" className="md:hidden p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5">
+            <button
+              aria-label="Open menu"
+              className="md:hidden p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5"
+            >
               <ChevronDown className="h-5 w-5 text-zinc-800 dark:text-slate-200" />
             </button>
           </div>
