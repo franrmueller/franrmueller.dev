@@ -10,17 +10,18 @@ import { getAllArticles, getArticleBySlug } from '@/lib/content';
 import Callout from '@/components/Callout';
 
 type Params = { slug: string };
+type Props = { params: Promise<Params> };
 
 export async function generateStaticParams(): Promise<Params[]> {
   const articles = getAllArticles();
-  return articles.map(a => ({ slug: a.slug }));
+  return articles.map((a) => ({ slug: a.slug }));
 }
 
-export async function generateMetadata(
-  { params }: { params: Params }
-): Promise<Metadata> {
-  const post = getArticleBySlug(params.slug);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;               // 👈 await the promised params
+  const post = getArticleBySlug(slug);
   if (!post) return {};
+
   return {
     title: post.meta.title,
     description: post.meta.description || undefined,
@@ -32,11 +33,13 @@ export async function generateMetadata(
   };
 }
 
-export default function ArticlePage({ params }: { params: Params }) {
-  const post = getArticleBySlug(params.slug);
-  if (!post) return notFound();
+export default async function ArticlePage({ params }: Props) {
+  const { slug } = await params;               // 👈 await the promised params
+  const post = getArticleBySlug(slug);
+  if (!post) {
+    notFound();                                // throws; no need to `return`
+  }
 
-  // ✅ Type the plugin lists instead of casting to any
   const remarkPlugins: PluggableList = [remarkGfm];
   const rehypePlugins: PluggableList = [
     rehypeSlug,
