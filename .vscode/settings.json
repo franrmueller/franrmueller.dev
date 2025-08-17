@@ -1,10 +1,18 @@
 {
+  // ✅ Tailwind CSS IntelliSense improvements
   "editor.quickSuggestions": {
     "strings": true
   },
   "tailwindCSS.emmetCompletions": true,
+
+  // Makes IntelliSense pick up classes inside JS/TS utilities like clsx, cva, twMerge
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "'([^']*)'"],
-    ["cva\\(([^)]*)\\)", "'([^']*)'"]
-  ]
+    ["cva\\(([^)]*)\\)", "'([^']*)'"],
+    ["twMerge\\(([^)]*)\\)", "'([^']*)'"]
+  ],
+
+  // ✅ Optional: format on save (helps keep things tidy)
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
