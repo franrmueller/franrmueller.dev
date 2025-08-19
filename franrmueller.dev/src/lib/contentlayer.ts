@@ -2,11 +2,11 @@
 import {
   allNotes,
   allPosts,
-  allMocs,         // 👈
+  allMocs,
   allReferences,
   type Note,
   type Post,
-  type Moc,        // 👈
+  type Moc,
   type Reference,
 } from "contentlayer/generated";
 
@@ -16,8 +16,10 @@ const isPublished = (d: Doc) =>
   (d as any).status ? (d as any).status === "published" : true;
 
 export const notes = allNotes.filter(isPublished);
-export const posts = allPosts.filter(isPublished).sort((a, b) => +new Date(b.date) - +new Date(a.date));
-export const mocs = allMocs.filter(isPublished);          // 👈
+export const posts = allPosts
+  .filter(isPublished)
+  .sort((a, b) => +new Date(b.date) - +new Date(a.date));
+export const mocs = allMocs.filter(isPublished);
 export const references = allReferences.filter(isPublished);
 
 // ---- Lookups ---------------------------------------------------------------
@@ -56,6 +58,18 @@ export function getByTag(tag: string) {
 
 // ---- Backlinks (simple, body text search) ----------------------------------
 export function getBacklinks(target: Doc) {
-  const key = (target as any).slug;
-  const title = (target as any).title;
+  const key = (target as any).slug as string;
+  const title = (target as any).title as string;
+  const url = (target as any).url as string;
+
   const haystack: Doc[] = [...notes, ...posts, ...mocs, ...references];
+
+  return haystack.filter((d) => {
+    const raw = ((d as any).body?.raw || "") as string;
+    return (
+      raw.includes(`](${url})`) || // Markdown link
+      raw.includes(`[[${title}]]`) || // Wikilink by title
+      raw.includes(key) // loose slug match
+    );
+  });
+}
