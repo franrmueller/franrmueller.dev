@@ -15,8 +15,16 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [{ "name": "next" }]
+    "plugins": [{ "name": "next" }],
+    "types": ["node"]                      // ⬅️ remove "contentlayer/generated" from here
   },
-  "include": [".next/types/**/*.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", "src/types/**/*.d.ts"],
+  "include": [
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/types/**/*.d.ts",
+    "contentlayer/generated"               // ⬅️ add this so TS watches generated types
+  ],
   "exclude": ["node_modules"]
 }

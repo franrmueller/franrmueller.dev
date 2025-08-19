@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
-import { getAllArticles, getArticleBySlug } from '@/lib/content';
+import { getAllArticles, getArticleBySlug } from '@/lib/contentlayer';
 import Callout from '@/components/Callout';
 
 type Params = { slug: string };
