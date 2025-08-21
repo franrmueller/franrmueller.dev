@@ -36,6 +36,36 @@ export function getReferenceBySlug(slug: string) {
   return references.find((r) => r.slug === slug);
 }
 
+// ---- Articles adapter (for /writing route) ---------------------------------
+export type Article = {
+  slug: string;
+  content: string;
+  meta: {
+    title: string;
+    description?: string | null;
+    date?: string | null;
+  };
+};
+
+const mapPostToArticle = (p: Post): Article => ({
+  slug: p.slug,
+  content: (p as any).body?.raw ?? "",     // MD/MDX source expected by MDXRemote
+  meta: {
+    title: (p as any).title,
+    description: (p as any).description ?? null,
+    date: (p as any).date ?? null,
+  },
+});
+
+export function getAllArticles(): Article[] {
+  return posts.map(mapPostToArticle);
+}
+
+export function getArticleBySlug(slug: string): Article | undefined {
+  const p = getPostBySlug(slug);
+  return p ? mapPostToArticle(p) : undefined;
+}
+
 // ---- Tags ------------------------------------------------------------------
 export function getAllTags() {
   const tags = new Set<string>();
